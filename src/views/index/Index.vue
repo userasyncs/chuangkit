@@ -44,6 +44,7 @@
     <loads h="75" :bot="0.52"></loads>
     <div style="height: 0.52rem"></div>
     <back-to-top :top="500"></back-to-top>
+    <preview></preview>
   </div>
 </template>
 
@@ -53,6 +54,7 @@ import SceneDetails from "../../components/SceneDetails.vue";
 import Search from "../../components/search/Search.vue";
 import Loads from "../../components/load/Loads.vue";
 import BackToTop from '../../components/bacototop/BackToTop.vue';
+import Preview from '../../components/preview/Preview.vue';
 
 export default {
   components: {
@@ -61,6 +63,7 @@ export default {
     SceneDetails,
     Loads,
     BackToTop,
+    Preview,
   },
   data() {
     return {
