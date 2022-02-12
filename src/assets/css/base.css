@@ -1,0 +1,75 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+html{
+    font-size: calc(10000vw/375);
+}
+li{
+    list-style: none;
+}
+a{
+    text-decoration: none;
+    color: #000;
+}
+body{
+    font-size: 0.16rem;
+}
+
+element.style {
+}
+.theme-con .theme-scroll .theme-item {
+    position: relative;
+    width: 5.12rem;
+    height: 2.77333rem;
+    padding-left: 0.68267rem;
+    display: inline-block;
+    font-weight: bolder;
+    background: #fff;
+    -webkit-box-shadow: 0 0.17067rem 0.768rem 0 rgb(20 38 86 / 10%);
+    box-shadow: 0 0.17067rem 0.768rem 0 rgb(20 38 86 / 10%);
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    border-radius: 0.17067rem;
+    overflow: hidden;
+    margin: 0.512rem 0 0.68267rem 0.512rem;
+    text-align: left;
+}
+* {
+    margin: 0;
+    padding: 0;
+}
+用户代理样式表
+div {
+    display: block;
+}
+.theme-con .theme-scroll {
+    font-size: 0;
+    white-space: nowrap;
+    overflow: auto;
+}
+body {
+    line-height: 1.6;
+    font-family: -apple-system-font,"Helvetica Neue",sans-serif;
+}
+<style>
+body, html {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
+style属性 {
+    font-size: 23.45px;
+}
+html {
+    -ms-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+}
+::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    color: transparent;
+    display: none;
+}
