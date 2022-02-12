@@ -80,7 +80,7 @@ export default {
       let res = await fetch(
         "/v2/mobile/main/getMainMiniProgramHomeInfo.do?_dataType=json&_dataClientType=3&client_type=40"
       ).then((r) => r.json());
-      console.log(res);
+      // console.log(res);
       this.scene_list = res.body.data.scene;
       this.details = res.body.data.sceneDetails.sceneDetail;
       this.total = res.body.data.sceneDetails.totalCount;

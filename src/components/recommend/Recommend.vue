@@ -33,7 +33,7 @@ export default {
       let res = await fetch(
         "/v2/solutionSubject/theme.do?_dataType=json&_dataClientType=3&client_type=40&solutionSubjectId=1&pageNum=1&pageSize=6&templatePageSize=6&type=3&device=2"
       ).then((r) => r.json());
-      console.log(res);
+      // console.log(res);
       this.commit_list = res.body.data.themes;
     },
     router(id){

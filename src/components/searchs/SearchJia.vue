@@ -3,14 +3,20 @@
       <div class="search_top">
          <div class="search_s">
           <span class="iconfont" style="margin:0 0.11rem;font-size:0.2rem">&#xe636;</span>
-          <input class="inp" type="text" placeholder="200000+ 免费模板任你搜索">
+          <input class="inp" @keyup.enter="router(keyword)" v-model="keyword" type="text" placeholder="200000+ 免费模板任你搜索">
          </div>
       <span @click="$router.go(-1)">取消</span>
       </div>
       <div class="hot_search">
         <p>热门搜索</p>
         <ul class="hot_list">
-          <li v-for="(item,index) in hotList" :key="index">{{item.keyword}}</li>
+          <li @click="router(item.keyword)" v-for="(item,index) in hotList" :key="index">{{item.keyword}}</li>
+        </ul>
+      </div>
+      <div class="hot_search">
+        <p>历史搜索</p>
+        <ul class="hot_list">
+          <li @click="router(item)" v-for="(item,index) in hoistoryList" :key="index">{{item}}</li>
         </ul>
       </div>
   </div>
@@ -23,15 +29,31 @@ export default {
       let res=await fetch("/v2/template/getRecommendKeyword.do?_dataType=json").then(r=>r.json())
       console.log(res);
       this.hotList=res.body.data;
+    },
+    router(keyword){
+      this.$router.push({
+        path:`/searchdetail/${keyword}`
+      })
+     let index= this.hoistoryList.findIndex(item =>item==keyword);
+     if (index==-1) {
+       this.hoistoryList.push(keyword);
+       localStorage.setItem("list",JSON.stringify(this.hoistoryList))
+      }
     }
   },
   data(){
     return {
-      hotList:[]
+      hotList:[],
+      keyword:"",
+      hoistoryList:[]
     }
   },
   created(){
     this.getHotList()
+    let list=localStorage.getItem("list");
+    if (list) {
+      this.hoistoryList=JSON.parse(list);
+    }
   }
 }
 </script>

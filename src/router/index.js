@@ -30,6 +30,10 @@ const routes = [
   },{
     path:"/searchs",
     component:()=>import("../components/searchs/SearchJia")
+  },
+  {
+    path:"/searchdetail/:keyword",
+    component:()=>import("../components/searchdedail/SearchDetial")
   }
 ]
 
