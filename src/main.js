@@ -5,4 +5,5 @@ import store from './store'
 import "assets/css/base.css"
 import "../public/font/iconfont.css"
 import { Loading } from 'vant';
-createApp(App).use(store).use(Loading).use(router).mount('#app')
+import { List } from 'vant';
+createApp(App).use(store).use(Loading).use(List).use(router).mount('#app')

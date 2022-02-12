@@ -1,5 +1,5 @@
 <template>
-  <div class="loads" :style="{height:h+'%'}" v-show="$store.state.loadFlag">
+  <div class="loads" :style="{height:h+'%',bottom:bot+'rem'}" v-show="$store.state.loadFlag">
     <van-loading size="36px"  color="#0094ff" vertical>加载中...</van-loading>
   </div>
 </template>
@@ -8,6 +8,9 @@
 export default {
     props:{
         h:{
+
+        },
+        bot:{
 
         }
     }
@@ -18,7 +21,6 @@ export default {
 .loads {
   position: fixed;
   left: 0;
-  bottom: 0.52rem;
   background: #fff;
   width: 100%;
   z-index: 9999;

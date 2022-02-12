@@ -41,7 +41,7 @@
         v-if="details.length"
       ></scene-details>
     </template>
-    <loads h="75"></loads>
+    <loads h="75" :bot="0.52"></loads>
     <div style="height: 0.52rem"></div>
   </div>
 </template>
