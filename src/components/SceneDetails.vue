@@ -3,7 +3,7 @@
   <div class="details">
       <div class="details_top">
           <p class="title">{{item.name}}</p>
-          <p style="fontSize:0.12rem;color:#000;">进入场景</p>
+          <p style="fontSize:0.12rem;color:#000;" @click="router(item.kindId,item.name)">进入场景</p>
       </div>
       <ul class="hand_list">
           <li :class="{borders:borderFlag}" v-for="url in item.templates" :key="url.id" :style="{width:getWidth(item)+'rem',height:parseInt(url.height)/parseInt(url.width)*getWidth(item)+'rem',}">
@@ -11,7 +11,7 @@
           </li>
       </ul>
       <div class="btns">
-         <button>更多</button>
+         <button @click="router(item.kindId,item.name)">更多</button>
          <button @click="getUrl(item.kindId)">换一批</button>
       </div>
   </div>
@@ -40,7 +40,11 @@ export default {
                 this.borderFlag=true;
                 return 1.68
             }else{
-                this.borderFlag=false;
+                if (item.name=="直播悬浮标") {
+                    this.borderFlag=true;
+                }else{
+                    this.borderFlag=false;
+                }
                 return 1.08
             }
         },
@@ -52,6 +56,11 @@ export default {
                 data:res.body.templates,
                 index:this.index
             })
+        },
+        router(id,name){
+             this.$router.push({
+        path: `/scenepage/${id}/${name}`,
+         });
         }
     },
 }

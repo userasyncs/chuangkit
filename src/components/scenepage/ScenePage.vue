@@ -2,42 +2,79 @@
   <div class="detail">
     <search> 在当前场景下搜索 </search>
     <div class="tabs">
-      <div class="jt"></div>
+      <div class="jt" :class="{ jts: flag }" @click="flag = !flag"></div>
       <ul class="tab" ref="tab">
-        <li :class="{ active: tagId == 0 }" @click="tagId = 0;res='全部'">全部</li>
+        <li
+          :class="{ active: tagId == 0 }"
+          @click="
+            tagId = 0;
+            res = '全部';
+          "
+        >
+          全部
+        </li>
         <li
           v-for="item in typeList"
           :class="{ active: tagId == item.tagId }"
-          @click="tagId = item.tagId;res=item.name"
+          @click="
+            tagId = item.tagId;
+            res = item.name;
+          "
           :key="item.tagId"
         >
           {{ item.name }}
         </li>
       </ul>
     </div>
-    <screen :useId="tagId" :name="res" :id="id"></screen>
-    <div class="fanh">
-
+    <div class="unfold" v-show="flag">
+          <ul class="tab">
+          <li
+          :class="{ active: tagId == 0 }"
+          @click="
+            tagId = 0;
+            res = '全部';
+          "
+        >
+          全部
+        </li>
+        <li
+          v-for="item in typeList"
+          :class="{ active: tagId == item.tagId }"
+          @click="
+            tagId = item.tagId;
+            res = item.name;
+            flag=false;
+          "
+          :key="item.tagId"
+        >
+          {{ item.name }}
+        </li>
+          </ul>
     </div>
+    <screen :useId="tagId" :name="res" :cosel="cosel" :id="id"></screen>
+    <back-to-top top="500"></back-to-top>
   </div>
 </template>
 
 <script>
+import BackToTop from "../bacototop/BackToTop.vue";
 import Screen from "../screen/Screen.vue";
 import Search from "../search/Search.vue";
 export default {
-  components: { Search, Screen },
+  components: { Search, Screen, BackToTop },
   data() {
     return {
       typeList: [],
       tagId: 0,
-      res:"全部",
-      id:"",
-      showFh:false
+      res: "全部",
+      id: "",
+      showFh: false,
+      cosel: false,
+      flag: false,
     };
   },
   created() {
-    this.id=this.$route.params.id;
+    this.id = this.$route.params.id;
     this.getData(this.$route.params.id);
   },
   methods: {
@@ -48,7 +85,13 @@ export default {
           "&_dataClientType=3"
       ).then((r) => r.json());
       console.log(res);
-      this.typeList = res.body.secondKindInfo.repoTag.use;
+      if (res.body.secondKindInfo.repoTag.use.length) {
+        this.typeList = res.body.secondKindInfo.repoTag.use;
+        this.cosel = false;
+      } else {
+        this.typeList = res.body.secondKindInfo.repoTag.style;
+        this.cosel = true;
+      }
       // console.log(this.typeList);
     },
   },
@@ -78,6 +121,10 @@ export default {
       right: 0.1rem;
       background: url(~assets/image/index/bottom.png);
       background-size: cover;
+      transition: all 0.3s ease;
+    }
+    .jts {
+      transform: rotate(180deg);
     }
     .tab {
       display: flex;
@@ -108,15 +155,36 @@ export default {
       }
     }
   }
-  .fanh{
-    width: 0.4rem;
-    height: 0.4rem;
-    border-radius: 50%;
-    background: url(~assets/image/index/fh.png);
-    background-size: cover;
+  .unfold {
     position: fixed;
-    bottom: 0.6rem;
-    right: 0.2rem;
+    top: 0.98rem;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba($color: #000000, $alpha: 0.4);
+    z-index: 9999;
+    .tab{
+      width: 100%;
+      padding: 0.16rem 0 0.08rem 0.15rem;
+      box-sizing: border-box;
+      background: #fff;
+      display: flex;
+      flex-wrap: wrap;
+      li{
+        width: 0.74rem;
+        height: 0.3rem;
+        background: #f3f4f9;
+        text-align: center;
+        line-height: 0.3rem;
+        font-size: 0.12rem;
+        border-radius: 0.2rem;
+        margin:0 0.15rem 0.12rem 0;
+      }
+      .active{
+        background: #0773fc;
+        color: #fff;
+      }
+    }
   }
 }
 </style>

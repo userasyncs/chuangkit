@@ -64,6 +64,9 @@ export default {
     useId: {},
     name: {},
     id: {},
+    cosel:{
+
+    }
   },
   watch: {
     useId() {
@@ -89,6 +92,7 @@ export default {
       }
     },
     async getUrl() {
+      let params=this.cosel?"&style_id=" +this.useId:"&use_id=" +this.useId
       this.$store.commit("changeFlag", true);
       document.documentElement.style.overflow = "hidden";
       let url = await fetch(
@@ -102,9 +106,7 @@ export default {
           this.result.sortNum +
           "&name=" +
           this.name +
-          "&use_id=" +
-          this.useId +
-          "&_dataClientType=3"
+          "&_dataClientType=3"+params
       ).then((r) => r.json());
       let res = await fetch(
         "/pub/" + url.body.cacheUrl.split("pub-cdn-oss.chuangkit.com")[1]
