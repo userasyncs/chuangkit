@@ -24,6 +24,12 @@ const routes = [
   {
     path:"/scenepage/:id/:name",
     component:()=>import("../components/scenepage/ScenePage")
+  },{
+    path:"/recomproject/:id",
+    component:()=>import("../components/recomproject/RecomProject")
+  },{
+    path:"/searchs",
+    component:()=>import("../components/searchs/SearchJia")
   }
 ]
 

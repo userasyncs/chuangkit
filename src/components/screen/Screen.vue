@@ -93,7 +93,9 @@ export default {
     },
     async getUrl() {
       let params=this.cosel?"&style_id=" +this.useId:"&use_id=" +this.useId
-      this.$store.commit("changeFlag", true);
+      if (this.result.page==1) {
+       this.$store.commit("changeFlag", true);
+      }
       document.documentElement.style.overflow = "hidden";
       let url = await fetch(
         "/v1/designtemplate/getWxAppTemplateByKindId.do?_dataType=json&client_type=40&fid=0&type=0&page_no=" +

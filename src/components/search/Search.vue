@@ -1,6 +1,6 @@
 <template>
   <div class="search" :style="{top:showLoad?0.58+'rem':0}">
-      <div class="search_s">
+      <div class="search_s" @click="router">
           <span class="iconfont">&#xe636;</span>
           <p>
               <slot></slot>
@@ -14,6 +14,13 @@ export default {
     props:{
         showLoad:{
 
+        }
+    },
+    methods:{
+        router(){
+            this.$router.push({
+                path:"/searchs"
+            })
         }
     }
 }

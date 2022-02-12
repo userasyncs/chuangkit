@@ -3,7 +3,7 @@
     <p class="title">推荐专题</p>
     <div class="recom_c">
       <ul class="recom_list">
-        <li v-for="(item, index) in commit_list" :key="index">
+        <li v-for="(item, index) in commit_list" :key="index" @click="router(item.id)">
           <p class="title">{{ item.title }}</p>
           <p class="text">{{ item.themeDescribe }}</p>
           <div class="circle" :style="{ background: colors[index] }"></div>
@@ -36,6 +36,11 @@ export default {
       console.log(res);
       this.commit_list = res.body.data.themes;
     },
+    router(id){
+      this.$router.push({
+        path:`/recomproject/${id}`
+      })
+    }
   },
   created() {
     this.getList();
