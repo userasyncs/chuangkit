@@ -34,6 +34,9 @@ const routes = [
   {
     path:"/searchdetail/:keyword",
     component:()=>import("../components/searchdedail/SearchDetial")
+  },{
+    path:"/currenttemplate/:id",
+    component:()=>import("../components/currenttemplate/CurrentTemplate")
   }
 ]
 

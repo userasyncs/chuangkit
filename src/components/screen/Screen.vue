@@ -28,11 +28,13 @@
       finished-text="没有更多了"
       @load="onLoad"
     >
-      <thum-detail
+    <div style="padding:0 0.12rem;box-sizing:boder-box;">
+          <thum-detail
         :templates="templates"
         w="1.69"
         style="marginTop: 1.5rem"
       ></thum-detail>
+    </div>
     </van-list>
     <loads :h="78" :bot="0"></loads>
   </div>

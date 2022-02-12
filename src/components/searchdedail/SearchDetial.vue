@@ -13,7 +13,7 @@
           @keyup.enter="getTemplates"
         />
       </div>
-      <span @click="$router.replace('/index')">取消</span>
+      <span @click="$router.go(-1)">取消</span>
     </div>
     <div class="tabs">
       <ul class="tab">
@@ -46,7 +46,9 @@
       :immediate-check="false"
       @load="onLoad"
     >
-      <thum-detail :templates="templates" w="1.70"></thum-detail>
+    <div style="padding:0 0.12rem;box-sizing:boder-box;">
+            <thum-detail :templates="templates" w="1.70"></thum-detail>
+    </div>
     </van-list>
     <div v-show="!totalCount">
      <div class="my">
@@ -54,14 +56,16 @@
      <p class="mb">当前分类暂无模板</p>
     </div>
     <loads :h="78" :bot="0"></loads>
+    <back-to-top :top="500"></back-to-top>
   </div>
 </template>
 
 <script>
+import BackToTop from '../bacototop/BackToTop.vue';
 import Loads from "../load/Loads.vue";
 import ThumDetail from "../thumdetail/ThumDetail.vue";
 export default {
-  components: { ThumDetail, Loads },
+  components: { ThumDetail, Loads, BackToTop, },
   data() {
     return {
       keyword: "",
@@ -79,7 +83,7 @@ export default {
   },
   methods: {
     async getDesign() {
-        this.$store.commit("changeFlag", true);
+      this.$store.commit("changeFlag", true);
       document.documentElement.style.overflow = "hidden";
       let res = await fetch(
         "/v2/designkind/getDesignKindBasicInfo.do?_dataType=json",

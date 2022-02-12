@@ -27,10 +27,13 @@ export default {
   methods:{
     async getHotList(){
       let res=await fetch("/v2/template/getRecommendKeyword.do?_dataType=json").then(r=>r.json())
-      console.log(res);
+      // console.log(res);
       this.hotList=res.body.data;
     },
     router(keyword){
+      if (!keyword) {
+        return false;
+      }
       this.$router.push({
         path:`/searchdetail/${keyword}`
       })

@@ -43,6 +43,7 @@
     </template>
     <loads h="75" :bot="0.52"></loads>
     <div style="height: 0.52rem"></div>
+    <back-to-top :top="500"></back-to-top>
   </div>
 </template>
 
@@ -51,6 +52,7 @@ import Recommend from "../../components/recommend/Recommend.vue";
 import SceneDetails from "../../components/SceneDetails.vue";
 import Search from "../../components/search/Search.vue";
 import Loads from "../../components/load/Loads.vue";
+import BackToTop from '../../components/bacototop/BackToTop.vue';
 
 export default {
   components: {
@@ -58,6 +60,7 @@ export default {
     Recommend,
     SceneDetails,
     Loads,
+    BackToTop,
   },
   data() {
     return {

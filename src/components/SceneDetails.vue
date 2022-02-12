@@ -6,7 +6,7 @@
           <p style="fontSize:0.12rem;color:#000;" @click="router(item.kindId,item.name)">进入场景</p>
       </div>
       <ul class="hand_list">
-          <li :class="{borders:borderFlag}" v-for="url in item.templates" :key="url.id" :style="{width:getWidth(item)+'rem',height:parseInt(url.height)/parseInt(url.width)*getWidth(item)+'rem',}">
+          <li @click="routers(url.designTemplateId)" :class="{borders:borderFlag}" v-for="url in item.templates" :key="url.id" :style="{width:getWidth(item)+'rem',height:parseInt(url.height)/parseInt(url.width)*getWidth(item)+'rem',}">
               <img :src="'https:'+url.designTemplateThumbUrls[0]+'?&x-oss-process=image/resize,w_300/format,jpg'" :style="{width:getWidth(item)+'rem',height:parseInt(url.height)/parseInt(url.width)*getWidth(item)+'rem',}" alt="">
           </li>
       </ul>
@@ -61,7 +61,12 @@ export default {
              this.$router.push({
         path: `/scenepage/${id}/${name}`,
          });
-        }
+        },
+        routers(id){
+             this.$router.push({
+                 path:`/currenttemplate/${id}`
+             })
+         }
     },
 }
 </script>
