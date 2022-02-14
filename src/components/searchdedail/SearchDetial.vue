@@ -57,6 +57,7 @@
     </div>
     <loads :h="78" :bot="0"></loads>
     <back-to-top :top="500"></back-to-top>
+    <footer></footer>
   </div>
 </template>
 
@@ -279,6 +280,13 @@ export default {
     width: 100%;
     font-size: 0.14rem;
     color: rgba(0,0,0,.6);
+  }
+  footer{
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 0.71rem;
   }
 }
 </style>

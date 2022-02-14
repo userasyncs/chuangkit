@@ -6,7 +6,7 @@
           <p style="fontSize:0.12rem;color:#000;" @click="router(item.kindId,item.name)">进入场景</p>
       </div>
       <ul class="hand_list">
-          <li @touchstart="start" @touchend="end"  @click="routers(url.designTemplateId)" :class="{borders:borderFlag}" v-for="url in item.templates" :key="url.id" :style="{width:getWidth(item)+'rem',height:parseInt(url.height)/parseInt(url.width)*getWidth(item)+'rem',}">
+          <li @touchstart="start(url)" @touchend="end"  @click="routers(url.designTemplateId)" :class="{borders:borderFlag}" v-for="url in item.templates" :key="url.id" :style="{width:getWidth(item)+'rem',height:parseInt(url.height)/parseInt(url.width)*getWidth(item)+'rem',}">
               <img :src="'https:'+url.designTemplateThumbUrls[0]+'?&x-oss-process=image/resize,w_300/format,jpg'" :style="{width:getWidth(item)+'rem',height:parseInt(url.height)/parseInt(url.width)*getWidth(item)+'rem',}" alt="">
           </li>
       </ul>
@@ -68,11 +68,14 @@ export default {
                  path:`/currenttemplate/${id}`
              })
          },
-         start(){
-            timer=setTimeout(function(){
-                 console.log(1);
+         start(item){
+            timer=setTimeout(()=>{
+                this.$store.commit("chanPreview",{
+                    value:true,
+                    item
+                })
                  document.documentElement.style.overflow="hidden"
-            },800)
+            },600)
          },
          end(){
              clearTimeout(timer);

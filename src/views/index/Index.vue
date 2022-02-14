@@ -44,7 +44,7 @@
     <loads h="75" :bot="0.52"></loads>
     <div style="height: 0.52rem"></div>
     <back-to-top :top="500"></back-to-top>
-    <preview></preview>
+    <preview w="2.4"></preview>
   </div>
 </template>
 

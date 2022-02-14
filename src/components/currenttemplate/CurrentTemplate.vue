@@ -20,18 +20,31 @@
       ></thum-detail>
       </div>
       <loads :h="100" bot="0"></loads>
+    <footer>
+        <div class="sc" @click="sumbit('收藏成功',true)">
+            <span v-if="iconShow" class="iconfont">&#xe635;</span>
+            <span v-else class="iconfont">&#xe63b;</span>
+        </div>
+        <div class="bj" @click="sumbit('编辑成功',false)">
+            立即编辑
+        </div>
+    </footer>
+    <login></login>
   </div>
 </template>
 
 <script>
 import Loads from '../load/Loads.vue'
+import Login from '../login/Login.vue'
 import ThumDetail from '../thumdetail/ThumDetail.vue'
+import { Notify } from 'vant';
 export default {
-  components: { ThumDetail, Loads },
+  components: { ThumDetail, Loads, Login },
   data(){
       return {
           templates:[],
-          datas:""
+          datas:"",
+          iconShow:true
       }
   },
   created(){
@@ -67,6 +80,18 @@ export default {
         this.$router.push({
         path:`/searchdetail/${keyword}`
       })
+      },
+      sumbit(value,flag){
+          if (!this.$store.state.token) {
+              this.$store.commit("changeProupshow",true)
+          }else{
+              Notify({ type: 'success', message: value });
+              if (flag) {
+              this.iconShow=false;
+             }else{
+                this.iconShow=true; 
+             }
+          }
       }
   },
   watch:{
@@ -86,6 +111,7 @@ export default {
 .currentTemplate{
     width: 3.75rem;
     padding: 0 0.12rem;
+    padding-bottom: 0.71rem;
     box-sizing:border-box ;
     .imgWarp{
         width: 100%;
@@ -119,7 +145,6 @@ export default {
     }
     .keywords{
         width: 100%;
-        height: 0.39rem;
         li{
             display: inline-block;
             width: auto;
@@ -136,6 +161,40 @@ export default {
         margin: 0.12rem 0 0.2rem 0;
         font-weight: bolder;
         font-size: 0.17rem;
+    }
+    footer{
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        height: 0.71rem;
+        background: #fff;
+        z-index: 999;
+        padding: 0 0.12rem;
+        box-sizing: border-box;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .sc{
+            width: 0.48rem;
+            height: 0.48rem;
+            text-align: center;
+            line-height: 0.48rem;
+            span{
+                font-size: 0.26rem;
+                color: red;
+            }
+        }
+        .bj{
+            background: #0773fc;
+            width: 2.92rem;
+            height: 0.48rem;
+            color: #fff;
+            text-align: center;
+            line-height: 0.48rem;
+            font-size: 0.15rem;
+            border-radius: 0.04rem;
+        }
     }
 }
 </style>

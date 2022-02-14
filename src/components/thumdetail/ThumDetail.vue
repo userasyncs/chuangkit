@@ -6,7 +6,12 @@
       :key="index"
       :style="{ width: w + 'rem' }"
     >
-      <li v-for="item in col.list" @click="router(item.designTemplateId)">
+      <li
+        v-for="item in col.list"
+        @click="router(item.designTemplateId)"
+        @touchstart="start(item)"
+        @touchend="end"
+      >
         <img
           v-if="item.designTemplateThumbUrls"
           :src="
@@ -27,11 +32,15 @@
         />
       </li>
     </ul>
+    <preview></preview>
   </div>
 </template>
 
 <script>
+import Preview from '../preview/Preview.vue';
+let timer;
 export default {
+  components: { Preview },
   props: {
     w: {},
     templates: {},
@@ -43,6 +52,18 @@ export default {
       this.$router.push({
         path: `/currenttemplate/${id}`,
       });
+    },
+    start(item) {
+      timer = setTimeout(() => {
+        this.$store.commit("chanPreview", {
+          value: true,
+          item,
+        });
+        document.documentElement.style.overflow = "hidden";
+      }, 600);
+    },
+    end() {
+      clearTimeout(timer);
     },
   },
   data() {

@@ -5,6 +5,8 @@
       <ul class="imgs">
         <li
           @click="router(items.designTemplateId)"
+          @touchstart="start(items)"
+          @end=(end)
           v-for="items in item.templates"
           :style="{
             width: w + 'rem',
@@ -31,11 +33,15 @@
         查看更多
       </p>
     </div>
+    <preview></preview>
   </div>
 </template>
 
 <script>
+import Preview from '../preview/Preview.vue';
+let timer;
 export default {
+  components: { Preview },
   props: {
     list: {},
     theme: {},
@@ -55,6 +61,18 @@ export default {
       this.$router.push({
         path: `/currenttemplate/${id}`,
       });
+    },
+   start(item) {
+      timer = setTimeout(() => {
+        this.$store.commit("chanPreview", {
+          value: true,
+          item,
+        });
+        document.documentElement.style.overflow = "hidden";
+      }, 600);
+    },
+    end() {
+      clearTimeout(timer);
     },
   },
   data() {
