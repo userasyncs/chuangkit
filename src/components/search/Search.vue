@@ -14,13 +14,25 @@ export default {
     props:{
         showLoad:{
 
+        },
+        secondKindId:{
+
         }
     },
     methods:{
         router(){
-            this.$router.push({
-                path:"/searchs"
+            if (this.secondKindId) {
+             this.$router.push({
+                path:"/searchs",
+                query:{
+                    id:this.secondKindId
+                }
             })
+            }else{
+             this.$router.push({
+                path:"/searchs",
+            })
+            }
         }
     }
 }

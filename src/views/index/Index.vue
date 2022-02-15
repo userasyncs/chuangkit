@@ -27,7 +27,7 @@
           v-for="item in scene_list.slice(0, 8)"
           :key="item.id"
         >
-          <img :src="'https:' + item.thumbUrl" alt="" />
+          <img :src="'https:' + item.thumbUrl" alt="" v-lazy="'https:' + item.thumbUrl" />
           <p>{{ item.name }}</p>
         </li>
       </ul>
@@ -55,8 +55,9 @@ import Search from "../../components/search/Search.vue";
 import Loads from "../../components/load/Loads.vue";
 import BackToTop from '../../components/bacototop/BackToTop.vue';
 import Preview from '../../components/preview/Preview.vue';
-
+// import { Button } from 'vant';
 export default {
+  name:"Index",
   components: {
     Search,
     Recommend,
@@ -64,6 +65,7 @@ export default {
     Loads,
     BackToTop,
     Preview,
+    // [Button.name]:Button
   },
   data() {
     return {

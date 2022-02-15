@@ -1,16 +1,16 @@
 <template>
   <div class="currentTemplate">
-      <div class="imgWarp">
-          <img :src="'https:'+datas.designTemplateImageUrl+'?&x-oss-process=image/resize,w_600/format,jpg'" alt="">
+      <div class="imgWarp"  v-if="datas">
+          <img :src="'https:'+datas.designTemplateImageUrl+'?&x-oss-process=image/resize,w_600/format,jpg'" :style="{height:parseInt(datas.height)/parseInt(datas.width)*2.37+'rem'}" alt="">
       </div>
       <div class="content">
-          <p class="title">{{datas.currentTemplate}}</p>
-          <p class="hb">{{datas.kindTitle}}</p>
-          <p class="text">
+          <p class="title"  v-if="datas">{{datas.currentTemplate}}</p>
+          <p class="hb"  v-if="datas">{{datas.kindTitle}}</p>
+          <p class="text"  v-if="datas">
         图片编号为{{datas.designTemplateId}}，该手机海报尺寸是{{datas.width}} *
         {{datas.height}}。点击“立即使用”，《{{datas.templateTitle}}》一键生成，在线编辑图片，简单托拉拽，秒出精美手机海报。
           </p>
-          <ul class="keywords">
+          <ul class="keywords"  v-if="datas">
               <li v-for="item in getKeyword(datas.keywords)" @click="searchRouter(item)">{{item}}</li>
           </ul>
           <p class="tj">为你推荐</p>
@@ -63,8 +63,8 @@ export default {
               body:"client_type=40&id="+id
           }).then(r=>r.json())
         //   console.log(res);
+        this.datas=res.body.currentTemplate;
           this.templates=res.body.recommendedTemplates;
-          this.datas=res.body.currentTemplate;
          setTimeout(() => {
         this.$store.commit("changeFlag", false);
         document.documentElement.style.overflow = "auto";
@@ -98,9 +98,9 @@ export default {
       $route:{
           deep:true,
           handler(){
+              this.getData(this.$route.params.id)
               document.documentElement.scrollTop=0;
               document.body.scrollTop=0;
-              this.getData(this.$route.params.id)
           },
       }
   }
@@ -123,7 +123,7 @@ export default {
         text-align: center;
         img{
             width: 2.37rem;
-            height: 4.21rem;
+            object-fit: cover;
         }
     }
     .content{

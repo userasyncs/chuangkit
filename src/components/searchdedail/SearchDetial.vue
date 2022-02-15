@@ -15,7 +15,7 @@
       </div>
       <span @click="$router.go(-1)">取消</span>
     </div>
-    <div class="tabs">
+    <div class="tabs" v-if="!this.id">
       <ul class="tab">
         <li :class="{ active: result.kindId == 0 }" @click="result.kindId = 0">
           全部
@@ -30,7 +30,8 @@
         </li>
       </ul>
     </div>
-    <div class="sortWarp">
+    <div style="height:0.5rem" v-if="this.id"></div>
+    <div class="sortWarp" v-if="!this.id">
       <p class="num">{{ totalCount }}个模板</p>
       <span :class="{active:result.time_order==0}" @click="result.time_order=0">最热</span>
       <div
@@ -80,6 +81,7 @@ export default {
       loading: false,
       finished: false,
       totalCount: 0,
+      id:""
     };
   },
   methods: {
@@ -152,6 +154,11 @@ export default {
     },
   },
   created() {
+    this.id=this.$route.params.id;
+    // console.log(this.id);
+    if (this.id) {
+      this.result.kindId=this.id;
+    }
     this.keyword = this.$route.params.keyword;
     this.getDesign();
     this.getTemplates();

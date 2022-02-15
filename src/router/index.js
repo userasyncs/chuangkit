@@ -10,14 +10,17 @@ const routes = [
       component:()=>import("../views/index/Index")
     },{
       path:"design",
-      component:()=>import("../views/design/Design")
+      component:()=>import("../views/design/Design"),
+      meta:{
+        token:true
+      }
     },{
       path:"profile",
       component :()=>import("../views/profile/Profile")
     },
     {
       path:"",
-      redirect:"/index"
+      redirect:"/index",
     }
   ]
   },
@@ -32,11 +35,14 @@ const routes = [
     component:()=>import("../components/searchs/SearchJia")
   },
   {
-    path:"/searchdetail/:keyword",
+    path:"/searchdetail/:keyword/:id?",
     component:()=>import("../components/searchdedail/SearchDetial")
   },{
     path:"/currenttemplate/:id",
     component:()=>import("../components/currenttemplate/CurrentTemplate")
+  },{
+    path:"/designlogin",
+    component:()=>import("../views/DesignLogin")
   }
 ]
 
@@ -44,8 +50,22 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
   scrollBehavior(to, from, savedPosition) {
-    return { top: 0 }
+    if (savedPosition) {
+      return savedPosition
+    } else {
+      return { top: 0 }
+    }
   },
 })
-
+router.beforeEach((to,from,next)=>{
+  if (to.meta.token) {
+    if (localStorage.getItem("token")) {
+      next()
+    }else{
+      next({path: '/designlogin'})
+    }
+  }else{
+    next()
+  }
+})
 export default router

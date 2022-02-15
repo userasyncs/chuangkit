@@ -13,16 +13,19 @@
       </li>
     </ul>
     <ul class="priceType" v-show="showprice">
+      <li :class="{ active: result.priceNum == 0 }"
+        @click="result.priceNum = 0;result.page=1">全部</li>
       <li
-        :class="{ active: result.priceNum == index }"
+        :class="{ active: result.priceNum == index+2 }"
         v-for="(item, index) in priceType"
         :key="index"
-        @click="result.priceNum = index;result.page=1"
+        @click="result.priceNum = index+2;result.page=1"
       >
         {{ item }}
       </li>
     </ul>
     <van-list
+    v-show="flag"
       v-model:loading="loading"
       :finished="finished"
       finished-text="没有更多了"
@@ -37,10 +40,16 @@
     </div>
     </van-list>
     <loads :h="78" :bot="0"></loads>
+    <div v-show="!flag">
+     <div class="my">
+    </div>
+     <p class="mb">当前分类暂无模板</p>
+    </div>
   </div>
 </template>
 
 <script>
+let name;
 import Loads from "../load/Loads.vue";
 import ThumDetail from "../thumdetail/ThumDetail.vue";
 export default {
@@ -50,7 +59,7 @@ export default {
       sortType: ["最新", "最热", "使用最多", "最多收藏"],
       res: "筛选",
       showprice: false,
-      priceType: ["全部", "免费", "付费"],
+      priceType: ["免费", "付费"],
       result: {
         priceNum: 0,
         sortNum: 0,
@@ -60,6 +69,7 @@ export default {
       loading: false,
       finished: false, 
       total: 0,
+      flag:true
     };
   },
   props: {
@@ -80,6 +90,9 @@ export default {
         this.getUrl();
       },
     },
+    id(){
+      this.getUrl();
+    }
   },
   methods: {
     onLoad() {
@@ -115,7 +128,19 @@ export default {
       let res = await fetch(
         "/pub/" + url.body.cacheUrl.split("pub-cdn-oss.chuangkit.com")[1]
       ).then((r) => r.json());
-      // console.log(res);
+      let err = await fetch(
+        "/pub/" + url.body.cacheUrl.split("pub-cdn-oss.chuangkit.com")[1]
+      ).catch()
+      if (err.status!=200) {
+        setTimeout(() => {
+        this.$store.commit("changeFlag", false);
+        document.documentElement.style.overflow = "auto";
+      }, 200);
+      this.flag=false;
+        return false;
+      }else{
+        this.flag=true;
+      }
       if (this.result.page>1) {
           this.templates.push(...res.body.templates)
       }else{
@@ -190,6 +215,22 @@ export default {
       background: #0773fc;
       color: #fff;
     }
+  }
+   .my{
+      width: 1rem;
+      height: 1rem;
+      background: url(~assets/image/search/my.png);
+      background-size: cover;
+      margin: 3rem auto;
+      margin-bottom: 0.2rem;
+  }
+  .mb{
+    text-align: center;
+    display: block;
+    margin: 0 auto;
+    width: 100%;
+    font-size: 0.14rem;
+    color: rgba(0,0,0,.6);
   }
 }
 </style>

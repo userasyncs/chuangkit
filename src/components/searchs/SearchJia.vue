@@ -34,9 +34,15 @@ export default {
       if (!keyword) {
         return false;
       }
-      this.$router.push({
+      if (this.id) {
+          this.$router.push({
+        path:`/searchdetail/${keyword}/${this.id}`
+      })
+      }else{
+          this.$router.push({
         path:`/searchdetail/${keyword}`
       })
+      }
      let index= this.hoistoryList.findIndex(item =>item==keyword);
      if (index==-1) {
        this.hoistoryList.push(keyword);
@@ -48,10 +54,12 @@ export default {
     return {
       hotList:[],
       keyword:"",
-      hoistoryList:[]
+      hoistoryList:[],
+      id:""
     }
   },
   created(){
+    this.id=this.$route.query.id;
     this.getHotList()
     let list=localStorage.getItem("list");
     if (list) {

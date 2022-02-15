@@ -6,7 +6,8 @@
         <li
           @click="router(items.designTemplateId)"
           @touchstart="start(items)"
-          @end=(end)
+          @touchmove="end"
+          @touchend="end"
           v-for="items in item.templates"
           :style="{
             width: w + 'rem',

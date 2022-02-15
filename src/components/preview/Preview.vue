@@ -1,5 +1,6 @@
 <template>
   <div>
+    <transition name="scale">
       <div
         class="preview"
         v-show="$store.state.result.previewLoad"
@@ -7,9 +8,7 @@
       >
         <div class="box">
           <div class="box_s">
-                <transition name="fade">
             <img
-            key="img2"
               :style="{
                 width: w + 'rem',
                 height:
@@ -28,20 +27,21 @@
               @click.stop
             />
             <img
-             key="img1"
               v-else
               :src="
-              $store.state.result.item.designTemplateImageUrl?
-                'https:' +
-                $store.state.result.item.designTemplateImageUrl +
-                '?&x-oss-process=image/resize,w_300/format,jpg'
-                :''
+                $store.state.result.item.designTemplateImageUrl
+                  ? 'https:' +
+                    $store.state.result.item.designTemplateImageUrl +
+                    '?&x-oss-process=image/resize,w_300/format,jpg'
+                  : ''
               "
               alt=""
             />
-            </transition>
             <div class="text" @click.stop>
-              <div class="sc" @click="sumbit">
+              <div
+                class="sc"
+                @click="sumbit($store.state.result.item.designTemplateId)"
+              >
                 <span v-if="iconShow" class="iconfont scs">&#xe635;</span>
                 <span v-else class="iconfont scs">&#xe63b;</span>
               </div>
@@ -51,6 +51,7 @@
           <login></login>
         </div>
       </div>
+    </transition>
   </div>
 </template>
 
@@ -66,15 +67,20 @@ export default {
       });
       document.documentElement.style.overflow = "auto";
     },
-    sumbit() {
+    sumbit(id) {
       if (!this.show) {
         this.$store.commit("changeProupshow", true);
       } else {
         this.iconShow = !this.iconShow;
-        if (this.iconShow) {
+        if (!this.iconShow) {
           Notify({ type: "success", message: "收藏成功" });
+          this.idlist.push(id);
+          localStorage.setItem("idList", JSON.stringify(this.idlist));
         } else {
           Notify({ type: "success", message: "取消收藏" });
+          let index = this.idlist.findIndex((item) => item == id);
+          this.idlist.splice(index, 1);
+          localStorage.setItem("idList", JSON.stringify(this.idlist));
         }
       }
     },
@@ -82,18 +88,34 @@ export default {
   data() {
     return {
       iconShow: true,
+      idlist: [],
     };
   },
   computed: {
     show() {
       return this.$store.state.token;
     },
+    id(){
+      return this.$store.state.result.item.designTemplateId
+    }
   },
   props: {
     w: {},
   },
-  created() {
-    console.log(this.$store.state.result.item);
+  watch:{
+    id(){
+      let list = localStorage.getItem("idList");
+    if (list) {
+      this.idlist = JSON.parse(list);
+      console.log(this.idlist);
+      let index = this.idlist.findIndex((item) => item == this.id);
+      if (index != -1) {
+        this.iconShow = false;
+      } else {
+        this.iconShow = true;
+      }
+    }
+    }
   },
 };
 </script>
@@ -147,16 +169,16 @@ export default {
     }
   }
 }
-  .fade-enter-from {
-    transform: scale(0);
-  }
-  .fade-leave-to {
-    transform: scale(1);
-  }
-  .fade-enter-active {
-    transition: all 0.2s;
-  }
-  .fade-leave-active {
-    transition: all 0.3s;
-  }
+.scale-enter-from {
+  transform: scale(0);
+}
+.scale-leave-to {
+  transform: scale(1);
+}
+.scale-enter-active {
+  transition: all 0.4s;
+}
+.scale-leave-active {
+  transition: all 0.4s;
+}
 </style>

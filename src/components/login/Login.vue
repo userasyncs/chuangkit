@@ -52,18 +52,19 @@ export default {
   },
   methods:{
       close(){
-          this.$store.commit("changeProupshow",false)
+            this.$store.commit("changeProupshow",false)
       }
   },
   data() {
     return {
       userName:"",
       sms:"",
+      isShow:""
     };
   },
  computed:{
       show(){
-         return this.$store.state.Proupshow;
+         return this.isShow=this.$store.state.Proupshow;
       },
       sumbit(){
           if (!this.userName||!this.sms) {
@@ -72,8 +73,16 @@ export default {
           }
           localStorage.setItem("token","userName=张三&password=123456");
           this.$store.commit("changeToken","userName=张三&password=123456")
-          this.$store.commit("changeProupshow",false)
+          this.$store.commit("changeProupshow",false);
+          if (this.path) {
+            this.$router.replace(this.path)
+          }
       }
+  },
+  props:{
+    path:{
+
+    }
   }
 };
 </script>

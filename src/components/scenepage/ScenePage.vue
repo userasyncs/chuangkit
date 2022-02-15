@@ -1,6 +1,6 @@
 <template>
   <div class="detail">
-    <search> 在当前场景下搜索 </search>
+    <search :secondKindId="this.id"> 在当前场景下搜索 </search>
     <div class="tabs">
       <div class="jt" :class="{ jts: flag }" @click="flag = !flag"></div>
       <ul class="tab" ref="tab">
@@ -61,7 +61,15 @@ import BackToTop from "../bacototop/BackToTop.vue";
 import Screen from "../screen/Screen.vue";
 import Search from "../search/Search.vue";
 export default {
+  name:"ScenePage",
   components: { Search, Screen, BackToTop },
+    beforeRouteEnter(to,from,next){
+      next(vm=>{
+         if (from.matched[0]) {
+          vm.name=from.matched[0].name
+      }
+      })
+  },
   data() {
     return {
       typeList: [],
@@ -71,6 +79,7 @@ export default {
       showFh: false,
       cosel: false,
       flag: false,
+      name:""
     };
   },
   created() {
@@ -84,7 +93,7 @@ export default {
           id +
           "&_dataClientType=3"
       ).then((r) => r.json());
-      console.log(res);
+      // console.log(res);
       if (res.body.secondKindInfo.repoTag.use.length) {
         this.typeList = res.body.secondKindInfo.repoTag.use;
         this.cosel = false;
@@ -95,6 +104,12 @@ export default {
       // console.log(this.typeList);
     },
   },
+   activated(){
+     if (this.name) {
+       this.id = this.$route.params.id;
+       this.getData(this.id);
+     }
+   }
 };
 </script>
 
