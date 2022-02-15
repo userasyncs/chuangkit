@@ -108,6 +108,7 @@ export default {
      if (this.name) {
        this.id = this.$route.params.id;
        this.getData(this.id);
+       this.$router.go(0)
      }
    }
 };

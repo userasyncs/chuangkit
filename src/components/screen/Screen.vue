@@ -3,7 +3,10 @@
     <ul class="sorttype">
       <li
         :class="{ active: result.sortNum == index }"
-        @click="result.sortNum = index;result.page=1"
+        @click="
+          result.sortNum = index;
+          result.page = 1;
+        "
         v-for="(item, index) in sortType"
       >
         {{ item }}
@@ -13,37 +16,46 @@
       </li>
     </ul>
     <ul class="priceType" v-show="showprice">
-      <li :class="{ active: result.priceNum == 0 }"
-        @click="result.priceNum = 0;result.page=1">全部</li>
       <li
-        :class="{ active: result.priceNum == index+2 }"
+        :class="{ active: result.priceNum == 0 }"
+        @click="
+          result.priceNum = 0;
+          result.page = 1;
+        "
+      >
+        全部
+      </li>
+      <li
+        :class="{ active: result.priceNum == index + 2 }"
         v-for="(item, index) in priceType"
         :key="index"
-        @click="result.priceNum = index+2;result.page=1"
+        @click="
+          result.priceNum = index + 2;
+          result.page = 1;
+        "
       >
         {{ item }}
       </li>
     </ul>
     <van-list
-    v-show="flag"
+      v-show="flag"
       v-model:loading="loading"
       :finished="finished"
       finished-text="没有更多了"
       @load="onLoad"
     >
-    <div style="padding:0 0.12rem;box-sizing:boder-box;">
-          <thum-detail
-        :templates="templates"
-        w="1.69"
-        style="marginTop: 1.5rem"
-      ></thum-detail>
-    </div>
+      <div style="padding: 0 0.12rem; box-sizing: boder-box">
+        <thum-detail
+          :templates="templates"
+          w="1.69"
+          style="marginTop: 1.5rem"
+        ></thum-detail>
+      </div>
     </van-list>
     <loads :h="78" :bot="0"></loads>
     <div v-show="!flag">
-     <div class="my">
-    </div>
-     <p class="mb">当前分类暂无模板</p>
+      <div class="my"></div>
+      <p class="mb">当前分类暂无模板</p>
     </div>
   </div>
 </template>
@@ -67,18 +79,16 @@ export default {
       },
       templates: [],
       loading: false,
-      finished: false, 
+      finished: false,
       total: 0,
-      flag:true
+      flag: true,
     };
   },
   props: {
     useId: {},
     name: {},
     id: {},
-    cosel:{
-
-    }
+    cosel: {},
   },
   watch: {
     useId() {
@@ -90,9 +100,9 @@ export default {
         this.getUrl();
       },
     },
-    id(){
+    id() {
       this.getUrl();
-    }
+    },
   },
   methods: {
     onLoad() {
@@ -107,9 +117,11 @@ export default {
       }
     },
     async getUrl() {
-      let params=this.cosel?"&style_id=" +this.useId:"&use_id=" +this.useId
-      if (this.result.page==1) {
-       this.$store.commit("changeFlag", true);
+      let params = this.cosel
+        ? "&style_id=" + this.useId
+        : "&use_id=" + this.useId;
+      if (this.result.page == 1) {
+        this.$store.commit("changeFlag", true);
       }
       document.documentElement.style.overflow = "hidden";
       let url = await fetch(
@@ -123,31 +135,33 @@ export default {
           this.result.sortNum +
           "&name=" +
           this.name +
-          "&_dataClientType=3"+params
+          "&_dataClientType=3" +
+          params
       ).then((r) => r.json());
       let res = await fetch(
         "/pub/" + url.body.cacheUrl.split("pub-cdn-oss.chuangkit.com")[1]
-      ).then((r) => r.json());
-      let err = await fetch(
-        "/pub/" + url.body.cacheUrl.split("pub-cdn-oss.chuangkit.com")[1]
-      ).catch()
-      if (err.status!=200) {
+      )
+        .then((r) => r.json())
+        .catch((err) => {
+          return err;
+        });
+      if (res == 404) {
         setTimeout(() => {
-        this.$store.commit("changeFlag", false);
-        document.documentElement.style.overflow = "auto";
-      }, 200);
-      this.flag=false;
+          this.$store.commit("changeFlag", false);
+          document.documentElement.style.overflow = "auto";
+        }, 200);
+        this.flag = false;
         return false;
-      }else{
-        this.flag=true;
+      } else {
+        this.flag = true;
       }
-      if (this.result.page>1) {
-          this.templates.push(...res.body.templates)
-      }else{
-          this.templates = res.body.templates;
+      if (this.result.page > 1) {
+        this.templates.push(...res.body.templates);
+      } else {
+        this.templates = res.body.templates;
       }
       this.total = res.body.totalCount;
-      this.loading=false;
+      this.loading = false;
       if (this.templates.length >= this.total) {
         this.finished = true;
       }
@@ -216,21 +230,21 @@ export default {
       color: #fff;
     }
   }
-   .my{
-      width: 1rem;
-      height: 1rem;
-      background: url(~assets/image/search/my.png);
-      background-size: cover;
-      margin: 3rem auto;
-      margin-bottom: 0.2rem;
+  .my {
+    width: 1rem;
+    height: 1rem;
+    background: url(~assets/image/search/my.png);
+    background-size: cover;
+    margin: 3rem auto;
+    margin-bottom: 0.2rem;
   }
-  .mb{
+  .mb {
     text-align: center;
     display: block;
     margin: 0 auto;
     width: 100%;
     font-size: 0.14rem;
-    color: rgba(0,0,0,.6);
+    color: rgba(0, 0, 0, 0.6);
   }
 }
 </style>
